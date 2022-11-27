@@ -9,10 +9,12 @@ import com.udacity.jdnd.course3.critter.user.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.user.Person;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final CustomerRepository customerRepository;

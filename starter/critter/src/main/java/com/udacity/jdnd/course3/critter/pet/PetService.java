@@ -5,11 +5,13 @@ import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PetService {
     private final PetRepository petRepository;
     private final CustomerRepository customerRepository;
@@ -28,7 +30,7 @@ public class PetService {
             pet.setOwner(cust);
             cust.getPets().add(pet);
         });
-        return this.convert(petRepository.save(pet));
+        return pet.getOwner() == null ? null : this.convert(petRepository.save(pet));
     }
 
     public PetDTO getPet(long petId) {
@@ -47,7 +49,7 @@ public class PetService {
                 .collect(Collectors.toList());
     }
 
-    private PetDTO convert(Pet pet){
+    private PetDTO convert(Pet pet) {
         return objectMapper.convertValue(pet, PetDTO.class);
     }
 }
